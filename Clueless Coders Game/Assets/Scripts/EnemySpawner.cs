@@ -6,6 +6,7 @@ public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab; // Reference to the enemy prefab
     private List<Transform> floorTransforms = new List<Transform>();
+    private float spawnInterval = 0.5f; // Initial spawn interval
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +20,9 @@ public class EnemySpawner : MonoBehaviour
 
         // Start the spawning coroutine
         StartCoroutine(SpawnEnemies());
+
+        // Start the coroutine to decrease the spawn interval
+        StartCoroutine(DecreaseSpawnInterval());
     }
 
     // Coroutine to spawn enemies at intervals
@@ -27,7 +31,7 @@ public class EnemySpawner : MonoBehaviour
         while (true)
         {
             SpawnEnemy();
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(spawnInterval);
         }
     }
 
@@ -54,5 +58,15 @@ public class EnemySpawner : MonoBehaviour
 
         // Instantiate the enemy prefab at the random position
         Instantiate(enemyPrefab, randomPosition, Quaternion.identity);
+    }
+
+    // Coroutine to decrease the spawn interval every 60 seconds
+    IEnumerator DecreaseSpawnInterval()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(60); // Wait for 60 seconds
+            spawnInterval = Mathf.Max(0.1f, spawnInterval - 0.1f); // Decrease spawn interval by 0.1 seconds, but not below 0.1 seconds
+        }
     }
 }
