@@ -1491,6 +1491,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1978342905}
   m_CullTransparentMesh: 1
+--- !u!1 &2075096127 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8818515680724216270, guid: 3f946bc02f236244f94f35bc0c291c63, type: 3}
+  m_PrefabInstance: {fileID: 1439815144}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2113194954
 GameObject:
   m_ObjectHideFlags: 0
@@ -1857,7 +1862,7 @@ PrefabInstance:
     - target: {fileID: 7235603372178508400, guid: 761e74f56236eda44adef75b74e94d49, type: 3}
       propertyPath: floor
       value: 
-      objectReference: {fileID: 1116979772}
+      objectReference: {fileID: 2075096127}
     - target: {fileID: 7235603372178508400, guid: 761e74f56236eda44adef75b74e94d49, type: 3}
       propertyPath: timerText
       value: 

@@ -44,12 +44,12 @@ public class GameManager : MonoBehaviour
                 InstantiateAndChangeColor();
             }
         }
-        if (Time.time - timeSinceLastChange >= 5)
+        if (Time.time - timeSinceLastChange >= 7)
         {
             ChangeMaterialColor(floor);
             timeSinceLastChange = Time.time;
         }
-        if (Time.time - enemyChangeTime >= 5)
+        if (Time.time - enemyChangeTime >= 7)
         {
             ChangeMaterialColor(enemyPrefab);
             enemyChangeTime = Time.time;
