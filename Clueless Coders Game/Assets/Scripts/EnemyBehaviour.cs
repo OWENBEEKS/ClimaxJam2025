@@ -48,11 +48,14 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (projectilePrefab != null && player != null)
         {
-            GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
             Vector3 direction = (player.position - transform.position).normalized;
+            Quaternion rotation = Quaternion.LookRotation(direction);
+
+            GameObject projectile = Instantiate(projectilePrefab, transform.position, rotation);
             projectile.GetComponent<Rigidbody>().velocity = direction * shotSpeed;
         }
     }
+
 
     private void OnCollisionEnter(Collision collision)
     {

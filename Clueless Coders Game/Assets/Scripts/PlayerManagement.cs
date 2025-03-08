@@ -55,7 +55,9 @@ public class PlayerManagement : MonoBehaviour
         Vector3 direction = (worldPosition - transform.position).normalized;
         Vector3 spawnPosition = transform.position + direction;
 
-        GameObject projectile = Instantiate(projectilePrefab, spawnPosition, Quaternion.identity);
+        Quaternion rotation = Quaternion.LookRotation(direction);
+
+        GameObject projectile = Instantiate(projectilePrefab, spawnPosition, rotation);
         projectile.GetComponent<Rigidbody>().velocity = direction * projectileSpeed;
     }
 
@@ -74,7 +76,8 @@ public class PlayerManagement : MonoBehaviour
             float angle = i * spreadAngle;
             Vector3 spreadDirection = Quaternion.Euler(0, angle, 0) * direction;
             Vector3 spreadPosition = transform.position + spreadDirection;
-            GameObject projectile = Instantiate(projectilePrefab, spreadPosition, Quaternion.identity);
+            Quaternion rotation = Quaternion.LookRotation(spreadDirection);
+            GameObject projectile = Instantiate(projectilePrefab, spreadPosition, rotation);
             projectile.GetComponent<Rigidbody>().velocity = spreadDirection * projectileSpeed;
         }
     }
@@ -94,7 +97,8 @@ public class PlayerManagement : MonoBehaviour
         for (int i = 0; i < numberOfProjectiles; i++)
         {
             Vector3 laserPosition = spawnPosition + direction * (i * distanceBetweenProjectiles);
-            GameObject projectile = Instantiate(projectilePrefab, laserPosition, Quaternion.identity);
+            Quaternion rotation = Quaternion.LookRotation(direction);
+            GameObject projectile = Instantiate(projectilePrefab, laserPosition, rotation);
             projectile.GetComponent<Rigidbody>().velocity = direction * projectileSpeed;
         }
     }
@@ -108,13 +112,17 @@ public class PlayerManagement : MonoBehaviour
         Vector3 direction = (worldPosition - transform.position).normalized;
         Vector3 spawnPosition = transform.position + direction;
 
-        GameObject projectile = Instantiate(projectilePrefab, spawnPosition, Quaternion.identity);
+        Quaternion rotation = Quaternion.LookRotation(direction);
+
+        GameObject projectile = Instantiate(projectilePrefab, spawnPosition, rotation);
         projectile.GetComponent<Rigidbody>().velocity = direction * projectileSpeed;
 
         HomingMissile homingMissile = projectile.AddComponent<HomingMissile>();
         homingMissile.targetTag = "Enemy";
         homingMissile.speed = projectileSpeed;
     }
+
+
 
     IEnumerator RandomizeWeaponMode()
     {
