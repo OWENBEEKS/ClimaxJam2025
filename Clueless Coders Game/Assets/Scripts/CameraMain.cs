@@ -23,7 +23,7 @@ public class CameraMain : MonoBehaviour
         if (playerTransform != null)
         {
             // Update the camera's position to follow the player
-            transform.position = new Vector3(playerTransform.position.x, 10, transform.position.z);
+            transform.position = new Vector3(playerTransform.position.x, playerTransform.position.y + 20, playerTransform.position.z);
         }
     }
 }
