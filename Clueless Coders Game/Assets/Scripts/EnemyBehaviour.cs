@@ -4,19 +4,31 @@ using UnityEngine;
 
 public class EnemyBehaviour : MonoBehaviour
 {
+<<<<<<< Updated upstream
     public float minSpeed = 1.0f; // Minimum speed at which the enemy can move
     public float maxSpeed = 5.0f; // Maximum speed at which the enemy can move
     private float speed; // Speed at which the enemy moves towards the player
+=======
+    public GameObject projectilePrefab;
+    public float speed = 2.0f; // Speed at which the enemy moves towards the player
+    public float shotSpeed = 5.0f; // Speed of the projectile  
+>>>>>>> Stashed changes
     public int health = 100; // Health of the enemy
     private Transform player;
     public ParticleSystem deathEffect; // Reference to the particle effect
+    public float shootInterval = 2.0f; // Interval between shots
+    private float shootTimer;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+<<<<<<< Updated upstream
         speed = Random.Range(minSpeed, maxSpeed); // Randomize the speed
         StartCoroutine(IncreaseHealthOverTime()); // Start the coroutine to increase health
+=======
+        shootTimer = shootInterval;
+>>>>>>> Stashed changes
     }
 
     // Update is called once per frame
@@ -27,6 +39,24 @@ public class EnemyBehaviour : MonoBehaviour
             // Move towards the player
             float step = speed * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, player.position, step);
+
+            // Handle shooting
+            shootTimer -= Time.deltaTime;
+            if (shootTimer <= 0)
+            {
+                ShootProjectile();
+                shootTimer = shootInterval;
+            }
+        }
+    }
+
+    private void ShootProjectile()
+    {
+        if (projectilePrefab != null && player != null)
+        {
+            GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+            Vector3 direction = (player.position - transform.position).normalized;
+            projectile.GetComponent<Rigidbody>().velocity = direction * shotSpeed;
         }
     }
 
