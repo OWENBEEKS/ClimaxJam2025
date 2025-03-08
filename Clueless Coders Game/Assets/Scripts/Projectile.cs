@@ -10,7 +10,20 @@ public class Projectile : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        // Destroy the projectile when it collides with any object
-        Destroy(gameObject);
+        // Check if the colliding object does not have the tag "Damage"
+        if (!collision.gameObject.CompareTag("Damage"))
+        {
+            // Destroy the projectile when it collides with any object except those with the tag "Damage"
+            Destroy(gameObject);
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        // Ignore collision with objects that have the tag "Damage"
+        if (other.CompareTag("Damage"))
+        {
+            Physics.IgnoreCollision(other, GetComponent<Collider>());
+        }
     }
 }
