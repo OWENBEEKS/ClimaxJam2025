@@ -7,19 +7,29 @@ public class PlayerManagement : MonoBehaviour
     public int health = 100;
     public GameObject projectilePrefab;
     public float projectileSpeed = 10f;
+    public GameObject aoeAttack; // Reference to the AOE Attack child object
+    private bool canFire = true;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        if (aoeAttack != null)
+        {
+            aoeAttack.SetActive(false); // Ensure AOE Attack is initially disabled
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && canFire)
         {
             FireProjectile();
+        }
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            ToggleAOEAttack();
         }
     }
 
@@ -58,4 +68,14 @@ public class PlayerManagement : MonoBehaviour
         GameObject projectile = Instantiate(projectilePrefab, spawnPosition, Quaternion.identity);
         projectile.GetComponent<Rigidbody>().velocity = direction * projectileSpeed;
     }
+
+    void ToggleAOEAttack()
+    {
+        canFire = !canFire;
+        if (aoeAttack != null)
+        {
+            aoeAttack.SetActive(!aoeAttack.activeSelf);
+        }
+    }
 }
+
