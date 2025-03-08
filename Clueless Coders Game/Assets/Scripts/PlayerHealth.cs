@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
     public GameObject deathScreen;
-    public int health = 10;
+    public int health;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +21,11 @@ public class PlayerHealth : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
+        {
+            TakeDamage(10);
+        }
+
+        if (collision.gameObject.CompareTag("EnemyProjectile"))
         {
             TakeDamage(10);
         }
