@@ -8,7 +8,7 @@ public class PlayerManagement : MonoBehaviour
     public float projectileSpeed = 10f;
     public GameObject aoeAttack; // Reference to the AOE Attack child object
     private bool canFire = true;
-    private int weaponMode = 0; // 0: Single Projectile, 1: Shotgun, 2: AOE Attack, 3: Laser
+    private int weaponMode = 0; // 0: Single Projectile, 1: Shotgun, 2: AOE Attack, 3: Laser, 4: Homing Missile
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +37,9 @@ public class PlayerManagement : MonoBehaviour
                     break;
                 case 3:
                     FireLaser();
+                    break;
+                case 4:
+                    FireHomingMissile();
                     break;
             }
         }
@@ -100,9 +103,26 @@ public class PlayerManagement : MonoBehaviour
         }
     }
 
+    void FireHomingMissile()
+    {
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition.z = Camera.main.WorldToScreenPoint(transform.position).z; // Set z to the player's z position in screen space
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+
+        Vector3 direction = (worldPosition - transform.position).normalized;
+        Vector3 spawnPosition = transform.position + direction;
+
+        GameObject projectile = Instantiate(projectilePrefab, spawnPosition, Quaternion.identity);
+        projectile.GetComponent<Rigidbody>().velocity = direction * projectileSpeed;
+
+        HomingMissile homingMissile = projectile.AddComponent<HomingMissile>();
+        homingMissile.targetTag = "Enemy";
+        homingMissile.speed = projectileSpeed;
+    }
+
     void CycleWeaponMode()
     {
-        weaponMode = (weaponMode + 1) % 4;
+        weaponMode = (weaponMode + 1) % 5;
 
         if (aoeAttack != null)
         {
@@ -123,6 +143,49 @@ public class PlayerManagement : MonoBehaviour
             case 3:
                 Debug.Log("Laser mode enabled.");
                 break;
+            case 4:
+                Debug.Log("Homing Missile mode enabled.");
+                break;
         }
+    }
+}
+
+public class HomingMissile : MonoBehaviour
+{
+    public string targetTag;
+    public float speed;
+    private Transform target;
+
+    void Start()
+    {
+        target = FindClosestEnemy();
+    }
+
+    void Update()
+    {
+        if (target != null)
+        {
+            Vector3 direction = (target.position - transform.position).normalized;
+            GetComponent<Rigidbody>().velocity = direction * speed;
+        }
+    }
+
+    Transform FindClosestEnemy()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag(targetTag);
+        Transform closestEnemy = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (GameObject enemy in enemies)
+        {
+            float distance = Vector3.Distance(transform.position, enemy.transform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestEnemy = enemy.transform;
+            }
+        }
+
+        return closestEnemy;
     }
 }

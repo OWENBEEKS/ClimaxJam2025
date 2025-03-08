@@ -696,7 +696,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 52
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!114 &1921201004
 MonoBehaviour:
@@ -1124,3 +1124,4 @@ SceneRoots:
   - {fileID: 8174322612133004505}
   - {fileID: 4359013801474596031}
   - {fileID: 759067062}
+  - {fileID: 2113194956}

@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -6,22 +7,33 @@ public class Projectile : MonoBehaviour
     {
         // Destroy the projectile after 5 seconds
         Destroy(gameObject, 5f);
+
+        // Ignore collision with objects that have the tag "Player"
+        Collider[] playerColliders = GameObject.FindGameObjectsWithTag("Player")
+            .Select(player => player.GetComponent<Collider>())
+            .Where(collider => collider != null)
+            .ToArray();
+
+        foreach (Collider playerCollider in playerColliders)
+        {
+            Physics.IgnoreCollision(playerCollider, GetComponent<Collider>());
+        }
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        // Check if the colliding object does not have the tag "Damage"
-        if (!collision.gameObject.CompareTag("Damage"))
+        // Check if the colliding object does not have the tag "Damage" or "Player"
+        if (!collision.gameObject.CompareTag("Damage") && !collision.gameObject.CompareTag("Player"))
         {
-            // Destroy the projectile when it collides with any object except those with the tag "Damage"
+            // Destroy the projectile when it collides with any object except those with the tag "Damage" or "Player"
             Destroy(gameObject);
         }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        // Ignore collision with objects that have the tag "Damage"
-        if (other.CompareTag("Damage"))
+        // Ignore collision with objects that have the tag "Damage" or "Player"
+        if (other.CompareTag("Damage") || other.CompareTag("Player"))
         {
             Physics.IgnoreCollision(other, GetComponent<Collider>());
         }
