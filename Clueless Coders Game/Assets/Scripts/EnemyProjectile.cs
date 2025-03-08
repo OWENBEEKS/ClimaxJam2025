@@ -23,7 +23,7 @@ public class EnemyProjectile : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         // Check if the colliding object does not have the tag "Damage" or "Player"
-        if (!collision.gameObject.CompareTag("Damage") && !collision.gameObject.CompareTag("Enemy")) && !collision.gameObject.CompareTag("EnemyProjectile"))
+        if (!collision.gameObject.CompareTag("Damage") && !collision.gameObject.CompareTag("Enemy") && !collision.gameObject.CompareTag("EnemyProjectile"))
         {
             // Destroy the projectile when it collides with any object except those with the tag "Damage" or "Player"
             Destroy(gameObject);
