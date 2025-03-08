@@ -6,8 +6,12 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     private float startTime;
+    private float timeSinceLastChange;
+    private float enemyChangeTime;
     public Text timerText;
     public GameObject enemyPrefab;
+    public GameObject floor;
+    public List<Material> materials;
     private int instantiatedCount = 0;
     private const int maxInstantiatedCount = 50;
 
@@ -15,13 +19,15 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         startTime = Time.time;
+        timeSinceLastChange = Time.time;
+        enemyChangeTime = Time.time;
     }
 
     // Update is called once per frame
     void Update()
     {
         float elapsedTime = Time.time - startTime;
-        timerText.text = "TimeG: " + elapsedTime.ToString("F2") + " seconds";
+        timerText.text = "Time: " + elapsedTime.ToString("F2") + " seconds";
 
         if (instantiatedCount < maxInstantiatedCount)
         {
@@ -38,6 +44,16 @@ public class GameManager : MonoBehaviour
                 InstantiateAndChangeColor();
             }
         }
+        if (Time.time - timeSinceLastChange >= 5)
+        {
+            ChangeMaterialColor(floor);
+            timeSinceLastChange = Time.time;
+        }
+        if (Time.time - enemyChangeTime >= 5)
+        {
+            ChangeMaterialColor(enemyPrefab);
+            enemyChangeTime = Time.time;
+        }
     }
 
     void InstantiateAndChangeColor()
@@ -50,9 +66,10 @@ public class GameManager : MonoBehaviour
     void ChangeMaterialColor(GameObject obj)
     {
         Renderer renderer = obj.GetComponent<Renderer>();
-        if (renderer != null)
+        if (renderer != null && materials.Count > 0)
         {
-            renderer.material.color = new Color(Random.value, Random.value, Random.value);
+            Material randomMaterial = materials[Random.Range(0, materials.Count)];
+            renderer.material = randomMaterial;
         }
     }
 }
