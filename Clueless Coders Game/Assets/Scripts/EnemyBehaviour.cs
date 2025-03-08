@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class EnemyBehaviour : MonoBehaviour
 {
-    public float speed = 2.0f; // Speed at which the enemy moves towards the player
+    public float minSpeed = 1.0f; // Minimum speed at which the enemy can move
+    public float maxSpeed = 5.0f; // Maximum speed at which the enemy can move
+    private float speed; // Speed at which the enemy moves towards the player
     public int health = 100; // Health of the enemy
     private Transform player;
     public ParticleSystem deathEffect; // Reference to the particle effect
@@ -13,6 +15,8 @@ public class EnemyBehaviour : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        speed = Random.Range(minSpeed, maxSpeed); // Randomize the speed
+        StartCoroutine(IncreaseHealthOverTime()); // Start the coroutine to increase health
     }
 
     // Update is called once per frame
@@ -64,6 +68,15 @@ public class EnemyBehaviour : MonoBehaviour
             {
                 audioSource.Play();
             }
+        }
+    }
+
+    private IEnumerator IncreaseHealthOverTime()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(30); // Wait for 60 seconds
+            health += 10; // Increase health by 10
         }
     }
 }
