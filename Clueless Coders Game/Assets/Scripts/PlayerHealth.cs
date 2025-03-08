@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
+    public GameObject deathScreen;
     public int health = 10;
     // Start is called before the first frame update
     void Start()
     {
-
+        deathScreen.SetActive(false);
     }
 
     // Update is called once per frame
@@ -38,5 +39,12 @@ public class PlayerHealth : MonoBehaviour
     {
         // Handle player death (e.g., reload scene, show game over screen)
         Debug.Log("Player has died.");
+        ShowDeathScreen();
+    }
+
+    void ShowDeathScreen()
+    {
+        deathScreen.SetActive(true);
+        Time.timeScale = 0; // Stop the game
     }
 }

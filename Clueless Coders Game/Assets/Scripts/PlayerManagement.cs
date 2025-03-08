@@ -17,6 +17,7 @@ public class PlayerManagement : MonoBehaviour
         {
             aoeAttack.SetActive(false); // Ensure AOE Attack is initially disabled
         }
+        StartCoroutine(RandomizeWeaponMode());
     }
 
     // Update is called once per frame
@@ -42,11 +43,6 @@ public class PlayerManagement : MonoBehaviour
                     FireHomingMissile();
                     break;
             }
-        }
-
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            CycleWeaponMode();
         }
     }
 
@@ -120,32 +116,36 @@ public class PlayerManagement : MonoBehaviour
         homingMissile.speed = projectileSpeed;
     }
 
-    void CycleWeaponMode()
+    IEnumerator RandomizeWeaponMode()
     {
-        weaponMode = (weaponMode + 1) % 5;
-
-        if (aoeAttack != null)
+        while (true)
         {
-            aoeAttack.SetActive(weaponMode == 2);
-        }
+            yield return new WaitForSeconds(10f);
+            weaponMode = Random.Range(0, 5);
 
-        switch (weaponMode)
-        {
-            case 0:
-                Debug.Log("Single projectile mode enabled.");
-                break;
-            case 1:
-                Debug.Log("Shotgun mode enabled.");
-                break;
-            case 2:
-                Debug.Log("AOE Attack enabled.");
-                break;
-            case 3:
-                Debug.Log("Laser mode enabled.");
-                break;
-            case 4:
-                Debug.Log("Homing Missile mode enabled.");
-                break;
+            if (aoeAttack != null)
+            {
+                aoeAttack.SetActive(weaponMode == 2);
+            }
+
+            switch (weaponMode)
+            {
+                case 0:
+                    Debug.Log("Single projectile mode enabled.");
+                    break;
+                case 1:
+                    Debug.Log("Shotgun mode enabled.");
+                    break;
+                case 2:
+                    Debug.Log("AOE Attack enabled.");
+                    break;
+                case 3:
+                    Debug.Log("Laser mode enabled.");
+                    break;
+                case 4:
+                    Debug.Log("Homing Missile mode enabled.");
+                    break;
+            }
         }
     }
 }
