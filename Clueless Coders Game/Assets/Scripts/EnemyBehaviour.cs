@@ -39,15 +39,30 @@ public class EnemyBehaviour : MonoBehaviour
                 // Play the death effect
                 if (deathEffect != null)
                 {
-                    Destroy(gameObject);
                     ParticleSystem effect = Instantiate(deathEffect, transform.position, Quaternion.identity);
                     effect.transform.parent = null; // Ensure the effect is not destroyed with the enemy
                     effect.Play();
-                    Destroy(effect.gameObject, 0.5f); // Destroy the particle system after 0.2 seconds
+                    Destroy(effect.gameObject, 0.5f); // Destroy the particle system after 0.5 seconds
                 }
 
+                // Play the explosion sound from the "Death Sound" GameObject
+                PlayExplosionSound();
+
                 // Destroy the enemy object
-               // Destroy(gameObject);
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    private void PlayExplosionSound()
+    {
+        GameObject deathSoundObject = GameObject.Find("Death Sound");
+        if (deathSoundObject != null)
+        {
+            AudioSource audioSource = deathSoundObject.GetComponent<AudioSource>();
+            if (audioSource != null)
+            {
+                audioSource.Play();
             }
         }
     }
