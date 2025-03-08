@@ -570,6 +570,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c72a4d5560a73004f8e04be5d26a769c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1116979772 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8818515680724216270, guid: 3f946bc02f236244f94f35bc0c291c63, type: 3}
+  m_PrefabInstance: {fileID: 1439815144}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1439815144
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -825,7 +830,7 @@ GameObject:
   - component: {fileID: 2113194956}
   - component: {fileID: 2113194955}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: EnemySpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1177,6 +1182,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7235603372178508400, guid: 761e74f56236eda44adef75b74e94d49, type: 3}
+      propertyPath: floor
+      value: 
+      objectReference: {fileID: 1116979772}
     - target: {fileID: 7235603372178508400, guid: 761e74f56236eda44adef75b74e94d49, type: 3}
       propertyPath: timerText
       value: 

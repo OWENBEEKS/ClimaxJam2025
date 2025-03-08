@@ -228,7 +228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timerText: {fileID: 5165409279792255077}
   enemyPrefab: {fileID: 4331560308095308916, guid: b65c32c6509c89e4e99e48f3bf61d7a9, type: 3}
-  floor: {fileID: 0}
+  floor: {fileID: 8818515680724216270, guid: 3f946bc02f236244f94f35bc0c291c63, type: 3}
   materials:
   - {fileID: 2100000, guid: 2ad85dfe2430c9944a67aabf28740c2d, type: 2}
   - {fileID: 2100000, guid: 88d4b65b6d484a1459f780db4b3edd0d, type: 2}
