@@ -227,6 +227,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -308,6 +309,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &963194229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c72a4d5560a73004f8e04be5d26a769c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1439815144
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -410,6 +423,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 52
   m_CollisionDetection: 0
+--- !u!114 &1921201004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921200997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46503e5d64226624086ccc51d565317d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  projectilePrefab: {fileID: 4246973170586007343, guid: a68e0a967d7634740b4b20542a746f4b, type: 3}
+  projectileSpeed: 10
 --- !u!1001 &1936956530
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -480,6 +508,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5697237542564776582, guid: e671be9a6ca3abe49b80e0907d4b7bab, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1921201003}
+    - targetCorrespondingSourceObject: {fileID: 5697237542564776582, guid: e671be9a6ca3abe49b80e0907d4b7bab, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1921201004}
   m_SourcePrefab: {fileID: 100100000, guid: e671be9a6ca3abe49b80e0907d4b7bab, type: 3}
 --- !u!1001 &8174322612133004505
 PrefabInstance:
@@ -489,6 +520,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1059117045898752707, guid: b65c32c6509c89e4e99e48f3bf61d7a9, type: 3}
+      propertyPath: health
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4331560308095308916, guid: b65c32c6509c89e4e99e48f3bf61d7a9, type: 3}
       propertyPath: m_Name
       value: Enemy
