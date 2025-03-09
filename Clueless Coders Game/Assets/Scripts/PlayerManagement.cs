@@ -74,7 +74,7 @@ public class PlayerManagement : MonoBehaviour
         Vector3 direction = (worldPosition - transform.position).normalized;
         Vector3 spawnPosition = transform.position + direction;
 
-        float spreadAngle = 10f;
+        float spreadAngle = 6f;
         for (int i = -2; i <= 2; i++)
         {
             float angle = i * spreadAngle;
@@ -111,11 +111,7 @@ public class PlayerManagement : MonoBehaviour
 
     void FireHomingMissile()
     {
-        Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = Camera.main.WorldToScreenPoint(transform.position).z;
-        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
-
-        Vector3 direction = (worldPosition - transform.position).normalized;
+        Vector3 direction = transform.forward; // Fire straight ahead
         Vector3 spawnPosition = transform.position + direction;
 
         Quaternion rotation = Quaternion.LookRotation(direction);
@@ -128,6 +124,7 @@ public class PlayerManagement : MonoBehaviour
         homingMissile.targetTag = "Enemy";
         homingMissile.speed = projectileSpeed;
     }
+
 
     IEnumerator RandomizeWeaponMode()
     {
