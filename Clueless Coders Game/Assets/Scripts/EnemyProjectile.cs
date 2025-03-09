@@ -25,18 +25,18 @@ public class EnemyProjectile : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        // Check if the colliding object does not have the tag "Damage" or "Player"
-        if (!collision.gameObject.CompareTag("Damage") && !collision.gameObject.CompareTag("Enemy") && !collision.gameObject.CompareTag("EnemyProjectile"))
+        // Check if the colliding object does not have the tag "Damage", "Player", or "AOE Attack"
+        if (!collision.gameObject.CompareTag("Damage") && !collision.gameObject.CompareTag("Enemy") && !collision.gameObject.CompareTag("EnemyProjectile") && !collision.gameObject.CompareTag("AOE Attack"))
         {
-            // Destroy the projectile when it collides with any object except those with the tag "Damage" or "Player"
+            // Destroy the projectile when it collides with any object except those with the tag "Damage", "Player", or "AOE Attack"
             Destroy(gameObject);
         }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        // Ignore collision with objects that have the tag "Damage" or "Player"
-        if (other.CompareTag("Damage") || other.CompareTag("Enemy"))
+        // Ignore collision with objects that have the tag "Damage", "Player", or "AOE Attack"
+        if (other.CompareTag("Damage") || other.CompareTag("Enemy") || other.CompareTag("AOE Attack"))
         {
             Physics.IgnoreCollision(other, GetComponent<Collider>());
         }

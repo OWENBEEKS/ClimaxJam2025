@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyBehaviour : MonoBehaviour
@@ -19,6 +18,8 @@ public class EnemyBehaviour : MonoBehaviour
     public float shakeDuration = 0.2f; // Duration of the shake
     public float shakeMagnitude = 0.3f; // Magnitude of the shake
 
+    private CameraMain cameraMain;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +27,9 @@ public class EnemyBehaviour : MonoBehaviour
         speed = Random.Range(minSpeed, maxSpeed); // Randomize the speed
         StartCoroutine(IncreaseHealthOverTime()); // Start the coroutine to increase health
         shootTimer = shootInterval;
+
+        // Find the CameraMain script
+        cameraMain = Camera.main.GetComponent<CameraMain>();
     }
 
     // Update is called once per frame
@@ -80,14 +84,18 @@ public class EnemyBehaviour : MonoBehaviour
 
                 // Play the explosion sound from the "Death Sound" GameObject
                 PlayExplosionSound();
-             
+
+                // Trigger screen shake
+                if (cameraMain != null)
+                {
+                    cameraMain.TriggerScreenShake(shakeDuration, shakeMagnitude);
+                }
 
                 // Destroy the enemy object
                 Destroy(gameObject);
             }
         }
     }
-
 
     private void PlayExplosionSound()
     {
