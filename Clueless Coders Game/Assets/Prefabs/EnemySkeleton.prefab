@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1666368597093631885}
   - component: {fileID: 7697845750594187691}
   - component: {fileID: 5609207870043374414}
-  - component: {fileID: 1059117045898752707}
+  - component: {fileID: -6886378031112033619}
   m_Layer: 0
   m_Name: EnemySkeleton
   m_TagString: Enemy
@@ -107,7 +107,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1059117045898752707
+--- !u!114 &-6886378031112033619
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -116,13 +116,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4331560308095308916}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a0173c5fcac2f942974085d770ab2a4, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e3b54b5e9f9e644b89c5ccdbab1cc17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpeed: 1
-  maxSpeed: 5
   projectilePrefab: {fileID: 4246973170586007343, guid: 067bc3e3c0a4dc141bf68f80aa0ee291, type: 3}
-  speed: 2
   shotSpeed: 5
   health: 10
   deathEffect: {fileID: 6318040193781960493, guid: 60f4a0a1dc1df124a9da454df5e17f42, type: 3}
