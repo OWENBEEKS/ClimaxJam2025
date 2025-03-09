@@ -31,6 +31,11 @@ public class TurretEnemyNehaviour : MonoBehaviour
     {
         if (player != null)
         {
+            // Make the turret look towards the player
+            Vector3 direction = (player.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5.0f);
+
             // Handle shooting
             shootTimer -= Time.deltaTime;
             if (shootTimer <= 0)
@@ -119,3 +124,4 @@ public class TurretEnemyNehaviour : MonoBehaviour
         }
     }
 }
+

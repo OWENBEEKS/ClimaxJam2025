@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public List<Material> materials;
     private int instantiatedCount = 0;
     private const int maxInstantiatedCount = 50;
+    private TimeSave timeSave;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour
         startTime = Time.time;
         timeSinceLastChange = Time.time;
         enemyChangeTime = Time.time;
+        timeSave = FindObjectOfType<TimeSave>();
         if (timerText != null)
         {
             StartCoroutine(AnimateTimerText());
@@ -37,15 +39,15 @@ public class GameManager : MonoBehaviour
         {
             if (elapsedTime >= 10 && elapsedTime < 20)
             {
-                InstantiateAndChangeColor();
+                StartCoroutine(InstantiateAndChangeColor());
             }
             else if (elapsedTime >= 20 && elapsedTime < 30)
             {
-                InstantiateAndChangeColor();
+                StartCoroutine(InstantiateAndChangeColor());
             }
             else if (elapsedTime >= 30)
             {
-                InstantiateAndChangeColor();
+                StartCoroutine(InstantiateAndChangeColor());
             }
         }
         if (Time.time - timeSinceLastChange >= 7)
@@ -58,10 +60,18 @@ public class GameManager : MonoBehaviour
             ChangeMaterialColor(enemyPrefab);
             enemyChangeTime = Time.time;
         }
+
+        // Example condition to save time
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            timeSave.SaveTime(elapsedTime);
+        }
     }
 
-    void InstantiateAndChangeColor()
+    IEnumerator InstantiateAndChangeColor()
     {
+        yield return new WaitForSeconds(60); // Wait for 60 seconds
+
         GameObject newObject = Instantiate(enemyPrefab);
         instantiatedCount++;
         ChangeMaterialColor(newObject);
