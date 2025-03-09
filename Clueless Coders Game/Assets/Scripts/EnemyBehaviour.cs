@@ -15,6 +15,9 @@ public class EnemyBehaviour : MonoBehaviour
     public ParticleSystem deathEffect; // Reference to the particle effect
     public float shootInterval = 2.0f; // Interval between shots
     private float shootTimer;
+    //public CameraShake cameraShake; // Reference to the CameraShake script
+    public float shakeDuration = 0.2f; // Duration of the shake
+    public float shakeMagnitude = 0.3f; // Magnitude of the shake
 
     // Start is called before the first frame update
     void Start()
@@ -56,7 +59,6 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Damage"))
@@ -78,12 +80,14 @@ public class EnemyBehaviour : MonoBehaviour
 
                 // Play the explosion sound from the "Death Sound" GameObject
                 PlayExplosionSound();
+             
 
                 // Destroy the enemy object
                 Destroy(gameObject);
             }
         }
     }
+
 
     private void PlayExplosionSound()
     {

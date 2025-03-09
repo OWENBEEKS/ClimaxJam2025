@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2ad85dfe2430c9944a67aabf28740c2d, type: 2}
+  - {fileID: 2100000, guid: 255436391f9524147a37a599920b6a29, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -118,8 +118,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a0173c5fcac2f942974085d770ab2a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minSpeed: 1
+  maxSpeed: 5
   projectilePrefab: {fileID: 4246973170586007343, guid: 067bc3e3c0a4dc141bf68f80aa0ee291, type: 3}
   speed: 2
+  shotSpeed: 5
   health: 10
   deathEffect: {fileID: 6318040193781960493, guid: 60f4a0a1dc1df124a9da454df5e17f42, type: 3}
   shootInterval: 2
+  shakeDuration: 0.2
+  shakeMagnitude: 0.3

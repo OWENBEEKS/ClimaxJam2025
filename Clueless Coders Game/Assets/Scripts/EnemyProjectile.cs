@@ -18,6 +18,9 @@ public class EnemyProjectile : MonoBehaviour
         {
             Physics.IgnoreCollision(playerCollider, GetComponent<Collider>());
         }
+
+        // Set a random color to the projectile
+        SetRandomColor();
     }
 
     void OnCollisionEnter(Collision collision)
@@ -36,6 +39,16 @@ public class EnemyProjectile : MonoBehaviour
         if (other.CompareTag("Damage") || other.CompareTag("Enemy"))
         {
             Physics.IgnoreCollision(other, GetComponent<Collider>());
+        }
+    }
+
+    void SetRandomColor()
+    {
+        Renderer renderer = GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            Color randomColor = new Color(Random.value, Random.value, Random.value);
+            renderer.material.color = randomColor;
         }
     }
 }

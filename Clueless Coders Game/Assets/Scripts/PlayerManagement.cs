@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; // Add this line to use the UI namespace
 
 public class PlayerManagement : MonoBehaviour
 {
     public GameObject projectilePrefab;
     public float projectileSpeed = 10f;
     public GameObject aoeAttack; // Reference to the AOE Attack child object
+    public Text weaponSwapTimerText; // Reference to the UI Text element
     private bool canFire = true;
     private int weaponMode = 0; // 0: Single Projectile, 1: Shotgun, 2: AOE Attack, 3: Laser, 4: Homing Missile
 
@@ -59,6 +61,7 @@ public class PlayerManagement : MonoBehaviour
 
         GameObject projectile = Instantiate(projectilePrefab, spawnPosition, rotation);
         projectile.GetComponent<Rigidbody>().velocity = direction * projectileSpeed;
+        projectile.transform.rotation = Quaternion.LookRotation(direction); // Ensure the projectile faces the direction it is fired in
     }
 
     void FireShotgun()
@@ -79,6 +82,7 @@ public class PlayerManagement : MonoBehaviour
             Quaternion rotation = Quaternion.LookRotation(spreadDirection);
             GameObject projectile = Instantiate(projectilePrefab, spreadPosition, rotation);
             projectile.GetComponent<Rigidbody>().velocity = spreadDirection * projectileSpeed;
+            projectile.transform.rotation = Quaternion.LookRotation(spreadDirection); // Ensure the projectile faces the direction it is fired in
         }
     }
 
@@ -100,6 +104,7 @@ public class PlayerManagement : MonoBehaviour
             Quaternion rotation = Quaternion.LookRotation(direction);
             GameObject projectile = Instantiate(projectilePrefab, laserPosition, rotation);
             projectile.GetComponent<Rigidbody>().velocity = direction * projectileSpeed;
+            projectile.transform.rotation = Quaternion.LookRotation(direction); // Ensure the projectile faces the direction it is fired in
         }
     }
 
@@ -116,19 +121,28 @@ public class PlayerManagement : MonoBehaviour
 
         GameObject projectile = Instantiate(projectilePrefab, spawnPosition, rotation);
         projectile.GetComponent<Rigidbody>().velocity = direction * projectileSpeed;
+        projectile.transform.rotation = Quaternion.LookRotation(direction); // Ensure the projectile faces the direction it is fired in
 
         HomingMissile homingMissile = projectile.AddComponent<HomingMissile>();
         homingMissile.targetTag = "Enemy";
         homingMissile.speed = projectileSpeed;
     }
 
-
-
     IEnumerator RandomizeWeaponMode()
     {
         while (true)
         {
-            yield return new WaitForSeconds(10f);
+            float timer = 10f;
+            while (timer > 0)
+            {
+                timer -= Time.deltaTime;
+                if (weaponSwapTimerText != null)
+                {
+                    weaponSwapTimerText.text = "Weapon swap in: " + Mathf.Ceil(timer).ToString() + "s";
+                }
+                yield return null;
+            }
+
             weaponMode = Random.Range(0, 5);
 
             if (aoeAttack != null)
