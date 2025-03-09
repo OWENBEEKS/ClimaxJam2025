@@ -8,7 +8,7 @@ public class EnemyProjectile : MonoBehaviour
     void Start()
     {
         // Destroy the projectile after 5 seconds
-        Destroy(gameObject, 10f);
+        Destroy(gameObject, 8f);
 
         // Ignore collision with objects that have the tag "Enemy"
         Collider[] enemyColliders = GameObject.FindGameObjectsWithTag("Enemy")

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject enemyPrefab; // Reference to the enemy prefab
-    public GameObject enemyTurretPrefab; // Reference to the enemy turret prefab
+    public List<GameObject> enemyPrefabs; // List of enemy prefabs
+    public List<GameObject> enemyTurretPrefabs; // List of enemy turret prefabs
     private List<Transform> floorTransforms = new List<Transform>();
     private float spawnInterval = 0.5f; // Initial spawn interval
 
@@ -58,7 +58,19 @@ public class EnemySpawner : MonoBehaviour
         );
 
         // Determine which enemy to spawn (1 in 4 chance for turret enemy)
-        GameObject enemyToSpawn = Random.Range(0, 4) == 0 ? enemyTurretPrefab : enemyPrefab;
+        GameObject enemyToSpawn;
+        if (Random.Range(0, 4) == 0 && enemyTurretPrefabs.Count > 0)
+        {
+            enemyToSpawn = enemyTurretPrefabs[Random.Range(0, enemyTurretPrefabs.Count)];
+        }
+        else if (enemyPrefabs.Count > 0)
+        {
+            enemyToSpawn = enemyPrefabs[Random.Range(0, enemyPrefabs.Count)];
+        }
+        else
+        {
+            return; // No prefabs to spawn
+        }
 
         // Instantiate the selected enemy prefab at the random position
         Instantiate(enemyToSpawn, randomPosition, Quaternion.identity);
