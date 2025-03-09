@@ -5,7 +5,6 @@ public class EnemyBehaviour : MonoBehaviour
 {
     public float minSpeed = 1.0f; // Minimum speed at which the enemy can move
     public float maxSpeed = 5.0f; // Maximum speed at which the enemy can move
-    //private float speed; // Speed at which the enemy moves towards the player
     public GameObject projectilePrefab;
     public float speed = 2.0f; // Speed at which the enemy moves towards the player
     public float shotSpeed = 5.0f; // Speed of the projectile  
@@ -14,7 +13,6 @@ public class EnemyBehaviour : MonoBehaviour
     public ParticleSystem deathEffect; // Reference to the particle effect
     public float shootInterval = 2.0f; // Interval between shots
     private float shootTimer;
-    //public CameraShake cameraShake; // Reference to the CameraShake script
     public float shakeDuration = 0.2f; // Duration of the shake
     public float shakeMagnitude = 0.3f; // Magnitude of the shake
 
@@ -40,6 +38,11 @@ public class EnemyBehaviour : MonoBehaviour
             // Move towards the player
             float step = speed * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, player.position, step);
+
+            // Rotate to look at the player
+            Vector3 direction = (player.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * speed);
 
             // Handle shooting
             shootTimer -= Time.deltaTime;
@@ -114,7 +117,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(30); // Wait for 60 seconds
+            yield return new WaitForSeconds(30); // Wait for 30 seconds
             health += 10; // Increase health by 10
         }
     }
