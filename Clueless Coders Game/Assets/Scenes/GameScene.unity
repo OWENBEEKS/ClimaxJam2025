@@ -3081,8 +3081,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 242e71bf20de9904794cbb928b41242a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 4331560308095308916, guid: b65c32c6509c89e4e99e48f3bf61d7a9, type: 3}
-  enemyTurretPrefab: {fileID: 4331560308095308916, guid: 40c4b2b12d5290c4a81dd6b49b9dbf90, type: 3}
+  enemyPrefabs:
+  - {fileID: 4331560308095308916, guid: b65c32c6509c89e4e99e48f3bf61d7a9, type: 3}
+  - {fileID: 4331560308095308916, guid: b65c32c6509c89e4e99e48f3bf61d7a9, type: 3}
+  enemyTurretPrefabs:
+  - {fileID: 4331560308095308916, guid: 3616a0107d17e6346b84e4f0a63082d1, type: 3}
+  - {fileID: 4331560308095308916, guid: 40c4b2b12d5290c4a81dd6b49b9dbf90, type: 3}
 --- !u!4 &2113194956
 Transform:
   m_ObjectHideFlags: 0
