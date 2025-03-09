@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab; // Reference to the enemy prefab
+    public GameObject enemyTurretPrefab; // Reference to the enemy turret prefab
     private List<Transform> floorTransforms = new List<Transform>();
     private float spawnInterval = 0.5f; // Initial spawn interval
 
@@ -56,8 +57,11 @@ public class EnemySpawner : MonoBehaviour
             Random.Range(bounds.min.z, bounds.max.z)
         );
 
-        // Instantiate the enemy prefab at the random position
-        Instantiate(enemyPrefab, randomPosition, Quaternion.identity);
+        // Determine which enemy to spawn (1 in 4 chance for turret enemy)
+        GameObject enemyToSpawn = Random.Range(0, 4) == 0 ? enemyTurretPrefab : enemyPrefab;
+
+        // Instantiate the selected enemy prefab at the random position
+        Instantiate(enemyToSpawn, randomPosition, Quaternion.identity);
     }
 
     // Coroutine to decrease the spawn interval every 60 seconds

@@ -21,6 +21,10 @@ public class GameManager : MonoBehaviour
         startTime = Time.time;
         timeSinceLastChange = Time.time;
         enemyChangeTime = Time.time;
+        if (timerText != null)
+        {
+            StartCoroutine(AnimateTimerText());
+        }
     }
 
     // Update is called once per frame
@@ -70,6 +74,26 @@ public class GameManager : MonoBehaviour
         {
             Material randomMaterial = materials[Random.Range(0, materials.Count)];
             renderer.material = randomMaterial;
+        }
+    }
+
+    IEnumerator AnimateTimerText()
+    {
+        while (true)
+        {
+            float hue = 0f;
+            Vector3 originalPosition = timerText.transform.position;
+            while (true)
+            {
+                hue += Time.deltaTime * 0.5f; // Adjust the speed of color change
+                if (hue > 1f) hue -= 1f;
+                timerText.color = Color.HSVToRGB(hue, 1f, 1f);
+
+                float jump = Mathf.Sin(Time.time * 5f) * 5f; // Adjust the speed and height of the jump
+                timerText.transform.position = originalPosition + new Vector3(0, jump, 0);
+
+                yield return null;
+            }
         }
     }
 }

@@ -147,6 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f75aa39b0747d0c48b6e635fbc4ed5f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aoeAttackObject: {fileID: 2549210256248744134, guid: 2a30196c86d7d6f4a8e2c7bb586dade7, type: 3}
 --- !u!1 &7479066708886624880
 GameObject:
   m_ObjectHideFlags: 0
