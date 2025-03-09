@@ -1,28 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; // Add this line to use the UI namespace
+using UnityEngine.UI;
 
 public class PlayerManagement : MonoBehaviour
 {
     public GameObject projectilePrefab;
     public float projectileSpeed = 10f;
-    public GameObject aoeAttack; // Reference to the AOE Attack child object
-    public Text weaponSwapTimerText; // Reference to the UI Text element
+    public GameObject aoeAttack;
+    public Text weaponSwapTimerText;
     private bool canFire = true;
-    private int weaponMode = 0; // 0: Single Projectile, 1: Shotgun, 2: AOE Attack, 3: Laser, 4: Homing Missile
+    private int weaponMode = 0;
 
-    // Start is called before the first frame update
     void Start()
     {
         if (aoeAttack != null)
         {
-            aoeAttack.SetActive(false); // Ensure AOE Attack is initially disabled
+            aoeAttack.SetActive(false);
         }
         StartCoroutine(RandomizeWeaponMode());
+        if (weaponSwapTimerText != null)
+        {
+            StartCoroutine(AnimateWeaponSwapText());
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0) && canFire)
@@ -36,7 +38,6 @@ public class PlayerManagement : MonoBehaviour
                     FireShotgun();
                     break;
                 case 2:
-                    // AOE Attack logic can be added here if needed
                     break;
                 case 3:
                     FireLaser();
@@ -51,7 +52,7 @@ public class PlayerManagement : MonoBehaviour
     void FireProjectile()
     {
         Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = Camera.main.WorldToScreenPoint(transform.position).z; // Set z to the player's z position in screen space
+        mousePosition.z = Camera.main.WorldToScreenPoint(transform.position).z;
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
         Vector3 direction = (worldPosition - transform.position).normalized;
@@ -61,19 +62,19 @@ public class PlayerManagement : MonoBehaviour
 
         GameObject projectile = Instantiate(projectilePrefab, spawnPosition, rotation);
         projectile.GetComponent<Rigidbody>().velocity = direction * projectileSpeed;
-        projectile.transform.rotation = Quaternion.LookRotation(direction); // Ensure the projectile faces the direction it is fired in
+        projectile.transform.rotation = Quaternion.LookRotation(direction);
     }
 
     void FireShotgun()
     {
         Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = Camera.main.WorldToScreenPoint(transform.position).z; // Set z to the player's z position in screen space
+        mousePosition.z = Camera.main.WorldToScreenPoint(transform.position).z;
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
         Vector3 direction = (worldPosition - transform.position).normalized;
         Vector3 spawnPosition = transform.position + direction;
 
-        float spreadAngle = 10f; // Angle between each projectile
+        float spreadAngle = 10f;
         for (int i = -2; i <= 2; i++)
         {
             float angle = i * spreadAngle;
@@ -82,21 +83,21 @@ public class PlayerManagement : MonoBehaviour
             Quaternion rotation = Quaternion.LookRotation(spreadDirection);
             GameObject projectile = Instantiate(projectilePrefab, spreadPosition, rotation);
             projectile.GetComponent<Rigidbody>().velocity = spreadDirection * projectileSpeed;
-            projectile.transform.rotation = Quaternion.LookRotation(spreadDirection); // Ensure the projectile faces the direction it is fired in
+            projectile.transform.rotation = Quaternion.LookRotation(spreadDirection);
         }
     }
 
     void FireLaser()
     {
         Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = Camera.main.WorldToScreenPoint(transform.position).z; // Set z to the player's z position in screen space
+        mousePosition.z = Camera.main.WorldToScreenPoint(transform.position).z;
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
         Vector3 direction = (worldPosition - transform.position).normalized;
         Vector3 spawnPosition = transform.position + direction;
 
-        int numberOfProjectiles = 10; // Number of projectiles in the laser
-        float distanceBetweenProjectiles = 0.5f; // Distance between each projectile
+        int numberOfProjectiles = 10;
+        float distanceBetweenProjectiles = 0.5f;
 
         for (int i = 0; i < numberOfProjectiles; i++)
         {
@@ -104,14 +105,14 @@ public class PlayerManagement : MonoBehaviour
             Quaternion rotation = Quaternion.LookRotation(direction);
             GameObject projectile = Instantiate(projectilePrefab, laserPosition, rotation);
             projectile.GetComponent<Rigidbody>().velocity = direction * projectileSpeed;
-            projectile.transform.rotation = Quaternion.LookRotation(direction); // Ensure the projectile faces the direction it is fired in
+            projectile.transform.rotation = Quaternion.LookRotation(direction);
         }
     }
 
     void FireHomingMissile()
     {
         Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = Camera.main.WorldToScreenPoint(transform.position).z; // Set z to the player's z position in screen space
+        mousePosition.z = Camera.main.WorldToScreenPoint(transform.position).z;
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
         Vector3 direction = (worldPosition - transform.position).normalized;
@@ -121,7 +122,7 @@ public class PlayerManagement : MonoBehaviour
 
         GameObject projectile = Instantiate(projectilePrefab, spawnPosition, rotation);
         projectile.GetComponent<Rigidbody>().velocity = direction * projectileSpeed;
-        projectile.transform.rotation = Quaternion.LookRotation(direction); // Ensure the projectile faces the direction it is fired in
+        projectile.transform.rotation = Quaternion.LookRotation(direction);
 
         HomingMissile homingMissile = projectile.AddComponent<HomingMissile>();
         homingMissile.targetTag = "Enemy";
@@ -167,6 +168,26 @@ public class PlayerManagement : MonoBehaviour
                 case 4:
                     Debug.Log("Homing Missile mode enabled.");
                     break;
+            }
+        }
+    }
+
+    IEnumerator AnimateWeaponSwapText()
+    {
+        while (true)
+        {
+            float hue = 0f;
+            Vector3 originalPosition = weaponSwapTimerText.transform.position;
+            while (true)
+            {
+                hue += Time.deltaTime * 0.5f; // Adjust the speed of color change
+                if (hue > 1f) hue -= 1f;
+                weaponSwapTimerText.color = Color.HSVToRGB(hue, 1f, 1f);
+
+                float jump = Mathf.Sin(Time.time * 5f) * 5f; // Adjust the speed and height of the jump
+                weaponSwapTimerText.transform.position = originalPosition + new Vector3(0, jump, 0);
+
+                yield return null;
             }
         }
     }

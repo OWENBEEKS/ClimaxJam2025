@@ -3,20 +3,32 @@ using UnityEngine;
 
 public class EnemyProjectile : MonoBehaviour
 {
+    public GameObject aoeAttackObject; // Add a public field for the AOE Attack GameObject
+
     void Start()
     {
         // Destroy the projectile after 5 seconds
-        Destroy(gameObject, 5f);
+        Destroy(gameObject, 10f);
 
-        // Ignore collision with objects that have the tag "Player"
-        Collider[] playerColliders = GameObject.FindGameObjectsWithTag("Enemy")
-            .Select(player => player.GetComponent<Collider>())
+        // Ignore collision with objects that have the tag "Enemy"
+        Collider[] enemyColliders = GameObject.FindGameObjectsWithTag("Enemy")
+            .Select(enemy => enemy.GetComponent<Collider>())
             .Where(collider => collider != null)
             .ToArray();
 
-        foreach (Collider playerCollider in playerColliders)
+        foreach (Collider enemyCollider in enemyColliders)
         {
-            Physics.IgnoreCollision(playerCollider, GetComponent<Collider>());
+            Physics.IgnoreCollision(enemyCollider, GetComponent<Collider>());
+        }
+
+        // Ignore collision with the AOE Attack GameObject if it is set
+        if (aoeAttackObject != null)
+        {
+            Collider aoeCollider = aoeAttackObject.GetComponent<Collider>();
+            if (aoeCollider != null)
+            {
+                Physics.IgnoreCollision(aoeCollider, GetComponent<Collider>());
+            }
         }
 
         // Set a random color to the projectile
@@ -25,18 +37,19 @@ public class EnemyProjectile : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        // Check if the colliding object does not have the tag "Damage", "Player", or "AOE Attack"
-        if (!collision.gameObject.CompareTag("Damage") && !collision.gameObject.CompareTag("Enemy") && !collision.gameObject.CompareTag("EnemyProjectile") && !collision.gameObject.CompareTag("AOE Attack"))
+        // Check if the colliding object is not the AOE Attack GameObject and does not have the tag "Damage", "Enemy", or "EnemyProjectile"
+        if (collision.gameObject != aoeAttackObject && !collision.gameObject.CompareTag("Damage") && !collision.gameObject.CompareTag("Enemy") && !collision.gameObject.CompareTag("EnemyProjectile"))
         {
-            // Destroy the projectile when it collides with any object except those with the tag "Damage", "Player", or "AOE Attack"
+            // Destroy the projectile when it collides with any object except those with the tag "Damage", "Enemy", "EnemyProjectile", or the AOE Attack GameObject
             Destroy(gameObject);
         }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        // Ignore collision with objects that have the tag "Damage", "Player", or "AOE Attack"
-        if (other.CompareTag("Damage") || other.CompareTag("Enemy") || other.CompareTag("AOE Attack"))
+        // Ignore collision with the AOE Attack GameObject and objects that have the tag "Damage" or "Enemy"
+        if (other.gameObject == aoeAttackObject || other.CompareTag("Damage") || other.CompareTag("Enemy") || other.CompareTag("EnemyProjectile"))
+       
         {
             Physics.IgnoreCollision(other, GetComponent<Collider>());
         }

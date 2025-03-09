@@ -6,6 +6,7 @@ public class CameraMain : MonoBehaviour
 {
     private Transform playerTransform;
     private Vector3 originalPosition;
+    public float followSpeed = 2.0f; // Speed at which the camera follows the player
 
     // Start is called before the first frame update
     void Start()
@@ -24,8 +25,9 @@ public class CameraMain : MonoBehaviour
     {
         if (playerTransform != null)
         {
-            // Update the camera's position to follow the player
-            transform.position = new Vector3(playerTransform.position.x, playerTransform.position.y + 20, playerTransform.position.z);
+            // Update the camera's position to follow the player with a delay
+            Vector3 targetPosition = new Vector3(playerTransform.position.x, playerTransform.position.y + 20, playerTransform.position.z);
+            transform.position = Vector3.Lerp(transform.position, targetPosition, followSpeed * Time.deltaTime);
             originalPosition = transform.position; // Update the original position
         }
     }
@@ -41,8 +43,8 @@ public class CameraMain : MonoBehaviour
 
         while (elapsed < duration)
         {
-            float x = Random.Range(-1f, 1f) * magnitude;
-            float y = Random.Range(-1f, 1f) * magnitude;
+            float x = Random.Range(-2f, 2f) * magnitude;
+            float y = Random.Range(-2f, 2f) * magnitude;
 
             transform.localPosition = new Vector3(originalPosition.x + x, originalPosition.y + y, originalPosition.z);
 
@@ -54,7 +56,8 @@ public class CameraMain : MonoBehaviour
         // Reset the camera's position relative to the player
         if (playerTransform != null)
         {
-            transform.position = new Vector3(playerTransform.position.x, playerTransform.position.y + 20, playerTransform.position.z);
+            Vector3 targetPosition = new Vector3(playerTransform.position.x, playerTransform.position.y + 20, playerTransform.position.z);
+            transform.position = Vector3.Lerp(transform.position, targetPosition, followSpeed * Time.deltaTime);
         }
     }
 }
