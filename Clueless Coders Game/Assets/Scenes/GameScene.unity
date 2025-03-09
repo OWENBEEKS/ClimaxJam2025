@@ -2551,7 +2551,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deathScreen: {fileID: 106979514}
-  health: 10000000
+  health: 10
 --- !u!1001 &1936956530
 PrefabInstance:
   m_ObjectHideFlags: 0
