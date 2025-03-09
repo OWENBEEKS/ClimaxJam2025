@@ -1443,6 +1443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c72a4d5560a73004f8e04be5d26a769c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  followSpeed: 2
 --- !u!81 &1308025503
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1787,7 +1788,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deathScreen: {fileID: 106979514}
-  health: 10
+  health: 10000000
 --- !u!1001 &1936956530
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2031,6 +2032,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 4331560308095308916, guid: b65c32c6509c89e4e99e48f3bf61d7a9, type: 3}
+  enemyTurretPrefab: {fileID: 3041356196759664146, guid: abbf4935e80f9774d95899dea982beee, type: 3}
 --- !u!4 &2113194956
 Transform:
   m_ObjectHideFlags: 0

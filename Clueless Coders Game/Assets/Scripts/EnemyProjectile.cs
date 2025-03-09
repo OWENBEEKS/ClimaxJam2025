@@ -48,7 +48,8 @@ public class EnemyProjectile : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         // Ignore collision with the AOE Attack GameObject and objects that have the tag "Damage" or "Enemy"
-        if (other.gameObject == aoeAttackObject || other.CompareTag("Damage") || other.CompareTag("Enemy"))
+        if (other.gameObject == aoeAttackObject || other.CompareTag("Damage") || other.CompareTag("Enemy") || other.CompareTag("EnemyProjectile"))
+       
         {
             Physics.IgnoreCollision(other, GetComponent<Collider>());
         }
