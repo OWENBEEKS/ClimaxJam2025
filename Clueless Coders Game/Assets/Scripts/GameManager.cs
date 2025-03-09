@@ -23,6 +23,9 @@ public class GameManager : MonoBehaviour
         enemyChangeTime = Time.time;
         if (timerText != null)
         {
+            Outline outline = timerText.gameObject.AddComponent<Outline>();
+            outline.effectColor = Color.black;
+            outline.effectDistance = new Vector2(1, -1);
             StartCoroutine(AnimateTimerText());
         }
     }

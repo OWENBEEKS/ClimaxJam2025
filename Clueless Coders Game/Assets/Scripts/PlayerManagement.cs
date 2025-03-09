@@ -9,6 +9,7 @@ public class PlayerManagement : MonoBehaviour
     public float projectileSpeed = 10f;
     public GameObject aoeAttack;
     public Text weaponSwapTimerText;
+    public Text currentWeaponText; // New Text element for current weapon
     private bool canFire = true;
     private int weaponMode = 0;
 
@@ -21,7 +22,17 @@ public class PlayerManagement : MonoBehaviour
         StartCoroutine(RandomizeWeaponMode());
         if (weaponSwapTimerText != null)
         {
+            Outline outline = weaponSwapTimerText.gameObject.AddComponent<Outline>();
+            outline.effectColor = Color.black;
+            outline.effectDistance = new Vector2(1, -1);
             StartCoroutine(AnimateWeaponSwapText());
+        }
+        if (currentWeaponText != null)
+        {
+            Outline outline = currentWeaponText.gameObject.AddComponent<Outline>();
+            outline.effectColor = Color.black;
+            outline.effectDistance = new Vector2(1, -1);
+            StartCoroutine(AnimateCurrentWeaponText());
         }
     }
 
@@ -125,7 +136,6 @@ public class PlayerManagement : MonoBehaviour
         homingMissile.speed = projectileSpeed;
     }
 
-
     IEnumerator RandomizeWeaponMode()
     {
         while (true)
@@ -148,25 +158,58 @@ public class PlayerManagement : MonoBehaviour
                 aoeAttack.SetActive(weaponMode == 2);
             }
 
+            string weaponName = "";
             switch (weaponMode)
             {
                 case 0:
+                    weaponName = "Single Projectile";
                     Debug.Log("Single projectile mode enabled.");
                     break;
                 case 1:
+                    weaponName = "Shotgun";
                     Debug.Log("Shotgun mode enabled.");
                     break;
                 case 2:
+                    weaponName = "AOE Attack";
                     Debug.Log("AOE Attack enabled.");
                     break;
                 case 3:
+                    weaponName = "Laser";
                     Debug.Log("Laser mode enabled.");
                     break;
                 case 4:
+                    weaponName = "Homing Missile";
                     Debug.Log("Homing Missile mode enabled.");
                     break;
             }
+
+            if (currentWeaponText != null)
+            {
+                StartCoroutine(ScrambleText(currentWeaponText, weaponName));
+            }
         }
+    }
+
+    IEnumerator ScrambleText(Text textElement, string finalText)
+    {
+        string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        int length = finalText.Length;
+        float scrambleDuration = 1f;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < scrambleDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            string scrambledText = "";
+            for (int i = 0; i < length; i++)
+            {
+                scrambledText += chars[Random.Range(0, chars.Length)];
+            }
+            textElement.text = scrambledText;
+            yield return null;
+        }
+
+        textElement.text = finalText;
     }
 
     IEnumerator AnimateWeaponSwapText()
@@ -183,6 +226,26 @@ public class PlayerManagement : MonoBehaviour
 
                 float jump = Mathf.Sin(Time.time * 5f) * 5f; // Adjust the speed and height of the jump
                 weaponSwapTimerText.transform.position = originalPosition + new Vector3(0, jump, 0);
+
+                yield return null;
+            }
+        }
+    }
+
+    IEnumerator AnimateCurrentWeaponText()
+    {
+        while (true)
+        {
+            float hue = 0f;
+            Vector3 originalPosition = currentWeaponText.transform.position;
+            while (true)
+            {
+                hue += Time.deltaTime * 0.5f; // Adjust the speed of color change
+                if (hue > 1f) hue -= 1f;
+                currentWeaponText.color = Color.HSVToRGB(hue, 1f, 1f);
+
+                float jump = Mathf.Sin(Time.time * 5f) * 5f; // Adjust the speed and height of the jump
+                currentWeaponText.transform.position = originalPosition + new Vector3(0, jump, 0);
 
                 yield return null;
             }
