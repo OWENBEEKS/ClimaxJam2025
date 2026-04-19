@@ -25,10 +25,10 @@ public class PlayerHealth : MonoBehaviour
             TakeDamage(10);
         }
 
-        if (collision.gameObject.CompareTag("EnemyProjectile"))
-        {
-            TakeDamage(10);
-        }
+        //if (collision.gameObject.CompareTag("EnemyProjectile"))
+        //{
+        //    TakeDamage(10);
+        //}
     }
 
     void TakeDamage(int damage)

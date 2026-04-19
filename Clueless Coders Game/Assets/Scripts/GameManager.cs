@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+
+    // This is diabled until we can fix it.
     private float startTime;
     private float timeSinceLastChange;
     private float enemyChangeTime;

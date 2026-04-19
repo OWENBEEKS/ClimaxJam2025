@@ -5,14 +5,14 @@ public class EnemyBehaviour : MonoBehaviour
 {
     public float minSpeed = 1.0f; // Minimum speed at which the enemy can move
     public float maxSpeed = 5.0f; // Maximum speed at which the enemy can move
-    public GameObject projectilePrefab;
+    //public GameObject projectilePrefab;
     public float speed = 2.0f; // Speed at which the enemy moves towards the player
-    public float shotSpeed = 5.0f; // Speed of the projectile  
+    //public float shotSpeed = 5.0f; // Speed of the projectile  
     public int health = 100; // Health of the enemy
     private Transform player;
     public ParticleSystem deathEffect; // Reference to the particle effect
     public float shootInterval = 2.0f; // Interval between shots
-    private float shootTimer;
+    //private float shootTimer;
     public float shakeDuration = 0.2f; // Duration of the shake
     public float shakeMagnitude = 0.3f; // Magnitude of the shake
 
@@ -24,7 +24,7 @@ public class EnemyBehaviour : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
         speed = Random.Range(minSpeed, maxSpeed); // Randomize the speed
         StartCoroutine(IncreaseHealthOverTime()); // Start the coroutine to increase health
-        shootTimer = shootInterval;
+        //shootTimer = shootInterval;
 
         // Find the CameraMain script
         cameraMain = Camera.main.GetComponent<CameraMain>();
@@ -45,26 +45,26 @@ public class EnemyBehaviour : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * speed);
 
             // Handle shooting
-            shootTimer -= Time.deltaTime;
-            if (shootTimer <= 0)
-            {
-                ShootProjectile();
-                shootTimer = shootInterval;
-            }
+            //shootTimer -= Time.deltaTime;
+            //if (shootTimer <= 0)
+           // {
+            //    ShootProjectile();
+            //    shootTimer = shootInterval;
+           // }
         }
     }
 
-    private void ShootProjectile()
-    {
-        if (projectilePrefab != null && player != null)
-        {
-            Vector3 direction = (player.position - transform.position).normalized;
-            Quaternion rotation = Quaternion.LookRotation(direction);
+    //private void ShootProjectile()
+    //{
+    //    if (projectilePrefab != null && player != null)
+    //    {
+    //        Vector3 direction = (player.position - transform.position).normalized;
+    //        Quaternion rotation = Quaternion.LookRotation(direction);
 
-            GameObject projectile = Instantiate(projectilePrefab, transform.position, rotation);
-            projectile.GetComponent<Rigidbody>().velocity = direction * shotSpeed;
-        }
-    }
+    //        GameObject projectile = Instantiate(projectilePrefab, transform.position, rotation);
+    //        projectile.GetComponent<Rigidbody>().velocity = direction * shotSpeed;
+    //    }
+    //}
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -117,8 +117,9 @@ public class EnemyBehaviour : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(30); // Wait for 30 seconds
-            health += 10; // Increase health by 10
+            yield return new WaitForSeconds(15); // Wait for 30 seconds
+            health += 5; // Increase health by 10
+            //Figure out scaling for this.
         }
     }
 }

@@ -1531,7 +1531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deathScreen: {fileID: 106979514}
-  health: 10
+  health: 100000000
 --- !u!1001 &1936956530
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2187,6 +2187,10 @@ PrefabInstance:
       propertyPath: floor
       value: 
       objectReference: {fileID: 904415495}
+    - target: {fileID: 7235603372178508400, guid: 761e74f56236eda44adef75b74e94d49, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7235603372178508400, guid: 761e74f56236eda44adef75b74e94d49, type: 3}
       propertyPath: timerText
       value: 
