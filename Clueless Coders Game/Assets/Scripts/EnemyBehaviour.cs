@@ -16,6 +16,8 @@ public class EnemyBehaviour : MonoBehaviour
     public float shakeDuration = 0.2f; // Duration of the shake
     public float shakeMagnitude = 0.3f; // Magnitude of the shake
 
+    public GameObject xpPrefab; // Reference to the XP prefab
+
     private CameraMain cameraMain;
 
     // Start is called before the first frame update
@@ -70,28 +72,49 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Damage"))
         {
-            // Reduce health when colliding with an object tagged as "Damage"
             health -= 10;
 
-            // Check if health is less than or equal to 0
             if (health <= 0)
             {
                 // Play the death effect
                 if (deathEffect != null)
                 {
                     ParticleSystem effect = Instantiate(deathEffect, transform.position, Quaternion.identity);
-                    effect.transform.parent = null; // Ensure the effect is not destroyed with the enemy
+                    effect.transform.parent = null;
                     effect.Play();
-                    Destroy(effect.gameObject, 0.5f); // Destroy the particle system after 0.5 seconds
+                    Destroy(effect.gameObject, 0.5f);
                 }
 
-                // Play the explosion sound from the "Death Sound" GameObject
+                // Play the explosion sound
                 PlayExplosionSound();
 
                 // Trigger screen shake
                 if (cameraMain != null)
                 {
                     cameraMain.TriggerScreenShake(shakeDuration, shakeMagnitude);
+                }
+
+                
+                // Spawn 2 XP objects at slightly offset positions with random force
+                if (xpPrefab != null)
+                {
+                    Vector3[] offsets = { new Vector3(0.2f, 0, 0), new Vector3(-0.2f, 0, 0) };
+                    foreach (var offset in offsets)
+                    {
+                        GameObject xp = Instantiate(xpPrefab, transform.position + offset, Quaternion.identity);
+                        Rigidbody rb = xp.GetComponent<Rigidbody>();
+                        if (rb != null)
+                        {
+                            // Generate a random direction in the XZ plane and a small upward Y component
+                            Vector3 randomDir = new Vector3(
+                                Random.Range(-1f, 1f),
+                                Random.Range(0.3f, 0.7f),
+                                Random.Range(-1f, 1f)
+                            ).normalized;
+                            float forceMagnitude = 2.0f; // Adjust as needed
+                            rb.AddForce(randomDir * forceMagnitude, ForceMode.Impulse);
+                        }
+                    }
                 }
 
                 // Destroy the enemy object
