@@ -7,4 +7,4 @@ B̶u̶l̶l̶e̶t̶ c̶o̶l̶l̶i̶s̶i̶o̶n̶ s̶t̶i̶l̶l̶ n̶e̶e̶d̶s̶ t
 
 Rethought the idea and have considered scrapping the idea of the enemy's firing, while it worked for the game jam in the long run it just isn't as fun / effective:
 
-
+Added Xp Object as a placeholder need to add the backend to these In this order probably: Leveling System -> Being able to level up / Picking up XP -> Level Scaling? -> Upgrades from leveling.
