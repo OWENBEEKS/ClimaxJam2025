@@ -72,7 +72,14 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Damage"))
         {
-            health -= 10;
+            // Check the LevelManager for the current player damage, default to 10 if missing
+            int damageTaken = 10;
+            if (LevelManager.Instance != null)
+            {
+                damageTaken = LevelManager.Instance.playerDamage;
+            }
+
+            health -= damageTaken;
 
             if (health <= 0)
             {
@@ -94,8 +101,7 @@ public class EnemyBehaviour : MonoBehaviour
                     cameraMain.TriggerScreenShake(shakeDuration, shakeMagnitude);
                 }
 
-                
-                // Spawn 2 XP objects at slightly offset positions with random force
+                // Spawn XP objects
                 if (xpPrefab != null)
                 {
                     Vector3[] offsets = { new Vector3(0.2f, 0, 0), new Vector3(-0.2f, 0, 0) };
@@ -105,13 +111,13 @@ public class EnemyBehaviour : MonoBehaviour
                         Rigidbody rb = xp.GetComponent<Rigidbody>();
                         if (rb != null)
                         {
-                            // Generate a random direction in the XZ plane and a small upward Y component
+                            // Generate a random direction
                             Vector3 randomDir = new Vector3(
                                 Random.Range(-1f, 1f),
                                 Random.Range(0.3f, 0.7f),
                                 Random.Range(-1f, 1f)
                             ).normalized;
-                            float forceMagnitude = 2.0f; // Adjust as needed
+                            float forceMagnitude = 2.0f;
                             rb.AddForce(randomDir * forceMagnitude, ForceMode.Impulse);
                         }
                     }

@@ -9,6 +9,7 @@ TagManager:
   - Damage
   - Floor
   - EnemyProjectile
+  - XP
   layers:
   - Default
   - TransparentFX
