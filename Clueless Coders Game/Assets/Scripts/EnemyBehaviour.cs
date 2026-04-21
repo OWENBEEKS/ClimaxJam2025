@@ -73,13 +73,13 @@ public class EnemyBehaviour : MonoBehaviour
         if (collision.gameObject.CompareTag("Damage"))
         {
             // Check the LevelManager for the current player damage, default to 10 if missing
-            int damageTaken = 10;
+            float damageTaken = 10f;
             if (LevelManager.Instance != null)
             {
                 damageTaken = LevelManager.Instance.playerDamage;
             }
 
-            health -= damageTaken;
+            health -= Mathf.RoundToInt(damageTaken);
 
             if (health <= 0)
             {

@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
-
-    //Very basic levelingg up system that increases damage, will need to add more to get the player to pick and figure out balancing.
     public Text LevelText;
     public Text XpAmountText;
     public int Level = 1;
@@ -14,21 +12,24 @@ public class LevelManager : MonoBehaviour
     public int XpAmountCap;
 
     [Header("Player Stats")]
-    public int playerDamage = 10;         // Starting damage amount
-    public int damageIncreasePerLevel = 5; // How much damage increases per level
+    public float playerDamage = 10f;      // Changed to float for accurate percentage scaling
 
     [Header("XP Magnet Settings")]
     public Transform playerTransform;
-    public float magnetRadius = 5f;       // Distance at which XP starts moving towards player
-    public float magnetSpeed = 15f;       // Speed at which XP moves
-    public float collectionRadius = 0.5f; // Distance at which XP is collected
-    public int xpPerPickup = 1;           // Amount of XP per object
+    public float magnetRadius = 5f;
+    public float magnetSpeed = 15f;
+    public float collectionRadius = 0.5f;
+    public int xpPerPickup = 1;
 
-    public static LevelManager Instance; // Singleton reference
+    [Header("Level Up UI")]
+    public GameObject levelUpPanel;        // Assign a UI Panel in the inspector
+    public Button[] upgradeButtons;        // Assign 3 UI Buttons here
+    public Text[] upgradeButtonTexts;      // Assign the Text components of those 3 buttons here
+
+    public static LevelManager Instance;
 
     private void Awake()
     {
-        // Set up a basic singleton so other scripts can access damage easily
         if (Instance == null)
         {
             Instance = this;
@@ -46,6 +47,12 @@ public class LevelManager : MonoBehaviour
             {
                 playerTransform = player.transform;
             }
+        }
+
+        // Ensure the level up panel is hidden at start
+        if (levelUpPanel != null)
+        {
+            levelUpPanel.SetActive(false);
         }
     }
 
@@ -100,8 +107,51 @@ public class LevelManager : MonoBehaviour
         Level++;
         XpAmount -= XpAmountCap;         // Carry over remaining XP
         XpAmountCap = Mathf.RoundToInt(XpAmountCap * 1.5f); // Increase the cap for the next level
-        
-        // Increase the player's damage
-        playerDamage += damageIncreasePerLevel;
+
+        ShowLevelUpOptions();
+    }
+
+    void ShowLevelUpOptions()
+    {
+        // Pause the game
+        Time.timeScale = 0f;
+
+        // Show the panel
+        if (levelUpPanel != null)
+        {
+            levelUpPanel.SetActive(true);
+        }
+
+        // Generate 3 random percentage increases for damage
+        for (int i = 0; i < upgradeButtons.Length; i++)
+        {
+            // Randomly choose an increase between 5% and 25%
+            int percentIncrease = Random.Range(15, 100); 
+
+            if (upgradeButtonTexts[i] != null)
+            {
+                upgradeButtonTexts[i].text = "+" + percentIncrease + "% Damage";
+            }
+
+            // Remove previous listeners and add the new chosen upgrade
+            upgradeButtons[i].onClick.RemoveAllListeners();
+            upgradeButtons[i].onClick.AddListener(() => ApplyUpgrade(percentIncrease));
+        }
+    }
+
+    public void ApplyUpgrade(int percentIncrease)
+    {
+        // Calculate and apply the percentage increase to current damage
+        float multiplier = 1f + (percentIncrease / 100f);
+        playerDamage *= multiplier;
+
+        // Hide the panel
+        if (levelUpPanel != null)
+        {
+            levelUpPanel.SetActive(false);
+        }
+
+        // Unpause the game
+        Time.timeScale = 1f;
     }
 }
